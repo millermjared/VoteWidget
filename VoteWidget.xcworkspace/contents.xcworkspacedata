@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:DDSIOSWidget/DDSIOSWidget.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:DDSWidget/DDSWidget.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VoteWidget/VoteWidget.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:WidgetTestApp/WidgetTestApp.xcodeproj">
+   </FileRef>
+</Workspace>
