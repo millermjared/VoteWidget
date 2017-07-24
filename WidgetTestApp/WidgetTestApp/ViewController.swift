@@ -8,6 +8,7 @@
 
 import UIKit
 import VoteWidget
+import DDSWidget
 import DDSIOSWidget
 
 class ViewController: UIViewController {
@@ -23,6 +24,24 @@ class ViewController: UIViewController {
     }
 
 
+    override func viewDidAppear(_ animated: Bool) {
+        
+        guard let path = Bundle.main.path(forResource: "sample-json", ofType: "txt") else {
+            return
+        }
+        
+        let data: Data = try! NSData(contentsOfFile:path) as Data
+        
+        var payload: [String: Any]?
+        do {
+            payload = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any])
+        } catch {
+            print(error)
+        }
+        
+        BaseWidgetContainer.sharedInstance.publishEvent(withName: "VOTE_DATA_CHANGED", payload: payload!)
+    }
+    
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -35,7 +54,6 @@ extension ViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "widget", for: indexPath) as! WidgetContainerCell
 
         let voteCollectionController = VoteWidgetProvider.createWidget()
-        
         voteCollectionController.addWidgetToView(cell.contentArea, inController: self)
 
         cell.barkerCount.text = "\(voteCollectionController.barkerCount())"

@@ -17,6 +17,11 @@ public class VoteWidgetProvider: NSObject {
 extension VoteWidgetProvider {
     public static func createWidget() -> VoteCollectionController {
         let storyboard = UIStoryboard(name: "VoteWidget", bundle: Bundle(for: self))
-        return storyboard.instantiateViewController(withIdentifier: "VoteWidget") as! VoteCollectionController
+        let widget = storyboard.instantiateViewController(withIdentifier: "VoteWidget") as! VoteCollectionController
+        
+        widget.setWidgetContainer(BaseWidgetContainer.sharedInstance)
+        
+        
+        return widget
     }
 }

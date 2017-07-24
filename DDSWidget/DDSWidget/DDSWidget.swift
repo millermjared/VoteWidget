@@ -6,14 +6,16 @@
 //  Copyright © 2017 Diligent, Inc. All rights reserved.
 //
 
-public protocol DDSWidgetContainer {
+public protocol DDSWidgetContainer: class {
     
     func subscribeToEvent(withName eventName: String, subscriber: DDSEventSubscriber)
     func publishEvent(withName eventName: String, payload: [String: Any])
 }
 
 public protocol DDSWidget {
- 
+    
+    func setWidgetContainer(_ container: DDSWidgetContainer)
+    
     func widgetTitle() -> String
     func barkerCount() -> Int32
     func layoutContent(forSize size: CGSize)

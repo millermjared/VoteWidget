@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4010E581F26643D00D78C1A /* BaseWidgetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4010E571F26643D00D78C1A /* BaseWidgetContainer.swift */; };
 		D4F217B21F1F9C5D00A6BF62 /* DDSWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F217B01F1F9C5D00A6BF62 /* DDSWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4F217BF1F1F9FB300A6BF62 /* DDSWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F217BE1F1F9FB300A6BF62 /* DDSWidget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D4010E571F26643D00D78C1A /* BaseWidgetContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseWidgetContainer.swift; sourceTree = "<group>"; };
 		D4F217AD1F1F9C5D00A6BF62 /* DDSWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DDSWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F217B01F1F9C5D00A6BF62 /* DDSWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDSWidget.h; sourceTree = "<group>"; };
 		D4F217B11F1F9C5D00A6BF62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -51,6 +53,7 @@
 				D4F217B01F1F9C5D00A6BF62 /* DDSWidget.h */,
 				D4F217B11F1F9C5D00A6BF62 /* Info.plist */,
 				D4F217BE1F1F9FB300A6BF62 /* DDSWidget.swift */,
+				D4010E571F26643D00D78C1A /* BaseWidgetContainer.swift */,
 			);
 			path = DDSWidget;
 			sourceTree = "<group>";
@@ -136,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4010E581F26643D00D78C1A /* BaseWidgetContainer.swift in Sources */,
 				D4F217BF1F1F9FB300A6BF62 /* DDSWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

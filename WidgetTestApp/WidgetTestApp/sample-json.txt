@@ -1,0 +1,8 @@
+{
+"metadata": {
+	"title": "Pending Votes"
+},
+"widgetData": [
+	{"documentTitle": "Sample Document"}
+]
+}
