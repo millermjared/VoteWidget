@@ -305,6 +305,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 93KL7PJ5WA;
 				INFOPLIST_FILE = WidgetTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boardbooks.WidgetTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -318,6 +319,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 93KL7PJ5WA;
 				INFOPLIST_FILE = WidgetTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boardbooks.WidgetTestApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
