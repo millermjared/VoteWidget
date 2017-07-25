@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             print(error)
         }
         
-        BaseWidgetContainer.sharedInstance.publishEvent(withName: "VOTE_DATA_CHANGED", payload: payload!)
+        BaseWidgetContainer.sharedInstance().publishEvent(withName: "VOTE_DATA_CHANGED", payload: payload!)
     }
     
 }
@@ -52,10 +52,11 @@ extension ViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "widget", for: indexPath) as! WidgetContainerCell
-
+        
         let voteCollectionController = VoteWidgetProvider.createWidget()
         voteCollectionController.addWidgetToView(cell.contentArea, inController: self)
 
+        cell.widget = voteCollectionController
         cell.barkerCount.text = "\(voteCollectionController.barkerCount())"
         cell.widgetTitle.text = voteCollectionController.widgetTitle()
         

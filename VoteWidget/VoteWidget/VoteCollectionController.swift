@@ -88,6 +88,10 @@ extension VoteCollectionController: DDSWidget {
     public func setWidgetContainer(_ container: DDSWidgetContainer) {
         widgetContainer = container
     }
+
+    public func widgetId() -> String {
+        return "VoteWidget" //make this dynamic for multiple instances...
+    }
     
     public func widgetTitle() -> String {
         return votingTitle ?? ""
@@ -101,12 +105,31 @@ extension VoteCollectionController: DDSWidget {
         self.view.frame = CGRect(x:0, y:0, width: size.width, height: size.height)
         self.view.layoutIfNeeded()
     }
+    
+    public func currentModalView() -> Any {
+        return currentModalViewController()
+    }
+    
+}
+
+extension VoteCollectionController: DDIOSWidget {
+    
+    public func currentModalViewController() -> UIViewController {
+        let storyboard = UIStoryboard(name: "VoteWidget", bundle: Bundle(for: self.classForCoder))
+        let widget = storyboard.instantiateViewController(withIdentifier: "VoteWidget") as! VoteCollectionController
+        
+        widget.setWidgetContainer(BaseWidgetContainer.sharedInstance())
+        
+        
+        return widget
+    }
 }
 
 extension VoteCollectionController: DDSEventSubscriber {
     public func process(name: String, payload: [String : Any]) {
         sourceData = payload
         collectionView.reloadData()
+        widgetContainer?.publishEvent(withName: "CHROME_DATA_UPDATED", payload: [String: Any]())
     }
 }
 

@@ -6,26 +6,43 @@
 //  Copyright © 2017 Diligent, Inc. All rights reserved.
 //
 
-@objc public class BaseWidgetContainer: NSObject {
+open class BaseWidgetContainer: NSObject {
     
-    public static let sharedInstance = BaseWidgetContainer()
+    static let singleton = BaseWidgetContainer()
     
-    var subscribers: [DDSEventSubscriber]
+    public static var sharedInstance: ()->DDSWidgetContainer = {
+        return singleton
+    }
     
-    override init() {
-        subscribers = [DDSEventSubscriber]()
+    var subscribers: [String: [DDSEventSubscriber]]
+    
+    public override init() {
+        subscribers = [String: [DDSEventSubscriber]]()
     }
 }
 
 extension BaseWidgetContainer: DDSWidgetContainer {
     
     public func subscribeToEvent(withName eventName: String, subscriber: DDSEventSubscriber) {
-        subscribers.append(subscriber)
+        var eventSubscribers = subscribers[eventName]
+        if eventSubscribers == nil {
+            eventSubscribers = [DDSEventSubscriber]()
+        }
+        
+        eventSubscribers!.append(subscriber)
+        subscribers[eventName] = eventSubscribers!
     }
     
     public func publishEvent(withName eventName: String, payload: [String: Any]) {
-        for subscriber in subscribers {
-            subscriber.process(name: eventName, payload: payload)
+        if let eventSubscribers = subscribers[eventName] {
+            
+            for subscriber in eventSubscribers {
+                subscriber.process(name: eventName, payload: payload)
+            }
         }
+    }
+    
+    public func presentModalView(widget: DDSWidget) {
+        fatalError("Must be implemented in a subclass")
     }
 }

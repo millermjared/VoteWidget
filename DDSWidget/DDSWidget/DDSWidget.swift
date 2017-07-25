@@ -10,16 +10,18 @@ public protocol DDSWidgetContainer: class {
     
     func subscribeToEvent(withName eventName: String, subscriber: DDSEventSubscriber)
     func publishEvent(withName eventName: String, payload: [String: Any])
+    func presentModalView(widget: DDSWidget)
 }
 
 public protocol DDSWidget {
     
     func setWidgetContainer(_ container: DDSWidgetContainer)
     
+    func widgetId() -> String
     func widgetTitle() -> String
     func barkerCount() -> Int32
     func layoutContent(forSize size: CGSize)
-    
+    func currentModalView() -> Any
 }
 
 public protocol DDSWidgetProvider {
