@@ -17,6 +17,11 @@ public class VoteCollectionController: UIViewController {
 
     weak var widgetContainer: DDSWidgetContainer?
     
+    lazy var editorDialog: VoteDialogController = {
+        let storyboard = UIStoryboard(name: "VoteWidget", bundle: Bundle(for: self.classForCoder))
+        return storyboard.instantiateViewController(withIdentifier: "VoteDialog") as! VoteDialogController
+    }()
+    
     var votingTitle: String?
 
     var voteCount: Int {
@@ -54,16 +59,9 @@ public class VoteCollectionController: UIViewController {
     }
 
     @IBAction func addClicked(_ sender: Any) {
-        if var eventPayload = sourceData {
-            
-            var widgetData = eventPayload["widgetData"] as! [[String:Any]]
-            
-            widgetData.append(["anotherVote": "just add"])
-            
-            eventPayload["widgetData"] = widgetData
-            
-            widgetContainer?.publishEvent(withName: "VOTE_DATA_CHANGED", payload: eventPayload)
-        }
+        editorDialog.vote = Vote()
+        editorDialog.delegate = self
+        widgetContainer?.presentModalView(widget: self)
     }
     
     @IBAction func removeClicked(_ sender: Any) {
@@ -81,6 +79,24 @@ public class VoteCollectionController: UIViewController {
         }
     }
     
+}
+
+extension VoteCollectionController: VoteDialogDelegate {
+    func voted(voteDialog: VoteDialogController) {
+        widgetContainer?.dismissModalView(widget: self)
+        
+        if var eventPayload = sourceData {
+            
+            var widgetData = eventPayload["widgetData"] as! [[String:Any]]
+            
+            widgetData.append(["anotherVote": "just add"])
+            
+            eventPayload["widgetData"] = widgetData
+            
+            widgetContainer?.publishEvent(withName: "VOTE_DATA_CHANGED", payload: eventPayload)
+        }
+        
+    }
 }
 
 extension VoteCollectionController: DDSWidget {
@@ -112,16 +128,11 @@ extension VoteCollectionController: DDSWidget {
     
 }
 
-extension VoteCollectionController: DDIOSWidget {
+extension VoteCollectionController: DDSIOSWidget {
     
     public func currentModalViewController() -> UIViewController {
-        let storyboard = UIStoryboard(name: "VoteWidget", bundle: Bundle(for: self.classForCoder))
-        let widget = storyboard.instantiateViewController(withIdentifier: "VoteWidget") as! VoteCollectionController
         
-        widget.setWidgetContainer(BaseWidgetContainer.sharedInstance())
-        
-        
-        return widget
+        return editorDialog
     }
 }
 
@@ -133,17 +144,18 @@ extension VoteCollectionController: DDSEventSubscriber {
     }
 }
 
-extension VoteCollectionController: UICollectionViewDelegate {
-    
-}
-
 extension VoteCollectionController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return voteCount
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: "VoteCell", for: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VoteCell", for: indexPath) as! CompactViewVoteCell
+        
+        cell.vote = votes?[indexPath.item]
+        
+        return cell
     }
     
     

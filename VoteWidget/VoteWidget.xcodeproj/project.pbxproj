@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D4010E561F265D3800D78C1A /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4010E551F265D3800D78C1A /* Vote.swift */; };
+		D4010E771F27B72C00D78C1A /* VoteDialogController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4010E761F27B72C00D78C1A /* VoteDialogController.swift */; };
 		D4F2176A1F1F86EF00A6BF62 /* VoteWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = D4F217681F1F86EF00A6BF62 /* VoteWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4F2179D1F1F88A700A6BF62 /* VoteCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F2179B1F1F88A700A6BF62 /* VoteCollectionController.swift */; };
 		D4F217C41F1FED4D00A6BF62 /* CompactViewVoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F217C31F1FED4D00A6BF62 /* CompactViewVoteCell.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		D4010E551F265D3800D78C1A /* Vote.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
+		D4010E761F27B72C00D78C1A /* VoteDialogController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteDialogController.swift; sourceTree = "<group>"; };
 		D4F217651F1F86EF00A6BF62 /* VoteWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = VoteWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4F217681F1F86EF00A6BF62 /* VoteWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VoteWidget.h; sourceTree = "<group>"; };
 		D4F217691F1F86EF00A6BF62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				D4F217D11F2231C500A6BF62 /* VoteWidget.storyboard */,
 				D4F217D31F223DA700A6BF62 /* VoteWidgetProvider.swift */,
 				D4010E551F265D3800D78C1A /* Vote.swift */,
+				D4010E761F27B72C00D78C1A /* VoteDialogController.swift */,
 			);
 			path = VoteWidget;
 			sourceTree = "<group>";
@@ -181,6 +184,7 @@
 			files = (
 				D4F217C41F1FED4D00A6BF62 /* CompactViewVoteCell.swift in Sources */,
 				D4F2179D1F1F88A700A6BF62 /* VoteCollectionController.swift in Sources */,
+				D4010E771F27B72C00D78C1A /* VoteDialogController.swift in Sources */,
 				D4F217D41F223DA700A6BF62 /* VoteWidgetProvider.swift in Sources */,
 				D4010E561F265D3800D78C1A /* Vote.swift in Sources */,
 			);

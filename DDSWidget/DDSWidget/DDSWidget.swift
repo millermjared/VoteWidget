@@ -11,6 +11,7 @@ public protocol DDSWidgetContainer: class {
     func subscribeToEvent(withName eventName: String, subscriber: DDSEventSubscriber)
     func publishEvent(withName eventName: String, payload: [String: Any])
     func presentModalView(widget: DDSWidget)
+    func dismissModalView(widget: DDSWidget)
 }
 
 public protocol DDSWidget {

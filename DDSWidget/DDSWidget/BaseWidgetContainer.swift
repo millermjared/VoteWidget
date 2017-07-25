@@ -19,6 +19,16 @@ open class BaseWidgetContainer: NSObject {
     public override init() {
         subscribers = [String: [DDSEventSubscriber]]()
     }
+    
+    //dumb swift limitation requires this method not be implemented in an extension
+    open func presentModalView(widget: DDSWidget) {
+        fatalError("Must be implemented in a subclass")
+    }
+    
+    open func dismissModalView(widget: DDSWidget) {
+        fatalError("Must be implemented in a subclass")
+    }
+    
 }
 
 extension BaseWidgetContainer: DDSWidgetContainer {
@@ -40,9 +50,5 @@ extension BaseWidgetContainer: DDSWidgetContainer {
                 subscriber.process(name: eventName, payload: payload)
             }
         }
-    }
-    
-    public func presentModalView(widget: DDSWidget) {
-        fatalError("Must be implemented in a subclass")
     }
 }

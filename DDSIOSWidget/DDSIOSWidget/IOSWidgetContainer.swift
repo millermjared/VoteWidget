@@ -13,10 +13,29 @@ public class IOSWidgetContainer: BaseWidgetContainer {
 
     static var singleton = IOSWidgetContainer()
     
-    public static func register() {
+    public var containerViewController: UIViewController?
+    
+    public static func registerWithContainer(_ containerVC: UIViewController) {
         self.sharedInstance = {
             return singleton
         }
+        singleton.containerViewController = containerVC
+    }
+    
+    override public func presentModalView(widget: DDSWidget) {
+        let iosWidget = widget as! DDSIOSWidget
+        
+        let modalVC = iosWidget.currentModalViewController()
+        modalVC.modalPresentationStyle = .formSheet
+        containerViewController?.present(modalVC, animated: true, completion: nil)
+    }
+    
+    override public func dismissModalView(widget: DDSWidget) {
+        guard containerViewController?.presentedViewController == widget.currentModalView() as? UIViewController else {
+            return
+        }
+        
+        containerViewController?.dismiss(animated: true, completion: nil)
     }
     
 }
