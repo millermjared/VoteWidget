@@ -19,7 +19,9 @@ public class VoteCollectionController: UIViewController {
     
     lazy var editorDialog: VoteDialogController = {
         let storyboard = UIStoryboard(name: "VoteWidget", bundle: Bundle(for: self.classForCoder))
-        return storyboard.instantiateViewController(withIdentifier: "VoteDialog") as! VoteDialogController
+        let result = storyboard.instantiateViewController(withIdentifier: "VoteDialog") as! VoteDialogController
+        result.delegate = self
+        return result
     }()
     
     var votingTitle: String?
@@ -60,7 +62,6 @@ public class VoteCollectionController: UIViewController {
 
     @IBAction func addClicked(_ sender: Any) {
         editorDialog.vote = Vote()
-        editorDialog.delegate = self
         widgetContainer?.presentModalView(widget: self)
     }
     
@@ -89,11 +90,14 @@ extension VoteCollectionController: VoteDialogDelegate {
             
             var widgetData = eventPayload["widgetData"] as! [[String:Any]]
             
-            widgetData.append(["anotherVote": "just add"])
-            
-            eventPayload["widgetData"] = widgetData
-            
-            widgetContainer?.publishEvent(withName: "VOTE_DATA_CHANGED", payload: eventPayload)
+            if let vote = voteDialog.vote {
+                
+                widgetData.append(vote.toJSON())
+                
+                eventPayload["widgetData"] = widgetData
+                
+                widgetContainer?.publishEvent(withName: "VOTE_DATA_CHANGED", payload: eventPayload)
+            }
         }
         
     }
@@ -141,6 +145,15 @@ extension VoteCollectionController: DDSEventSubscriber {
         sourceData = payload
         collectionView.reloadData()
         widgetContainer?.publishEvent(withName: "CHROME_DATA_UPDATED", payload: [String: Any]())
+    }
+}
+
+extension VoteCollectionController: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let vote = votes?[indexPath.item] {
+            editorDialog.vote = vote
+            widgetContainer?.presentModalView(widget: self)
+        }
     }
 }
 

@@ -3,6 +3,9 @@
 	"title": "Pending Votes"
 },
 "widgetData": [
-	{"documentTitle": "Sample Document"}
+	{
+        "meetingGroupName": "Sample Meeting Group",
+        "decision": "abstain"
+    }
 ]
 }

@@ -14,20 +14,17 @@ protocol VoteDialogDelegate: class {
 
 class VoteDialogController: UIViewController {
 
-    @IBOutlet weak var votingDocTitle: UITextField!
     @IBOutlet weak var meetingGroupName: UITextField!
     
     public var vote: Vote?
     public weak var delegate: VoteDialogDelegate?
     
     public override func viewWillAppear(_ animated: Bool) {
-        votingDocTitle.text = vote?.votingDocumentTitle ?? ""
         meetingGroupName.text = vote?.meetingGroupName ?? ""
     }
     
     func updateVote() {
         vote?.meetingGroupName = meetingGroupName.text
-        vote?.votingDocumentTitle = votingDocTitle.text
     }
     
     @IBAction func voteFor(_ sender: Any) {

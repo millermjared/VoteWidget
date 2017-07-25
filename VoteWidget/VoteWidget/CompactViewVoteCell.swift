@@ -16,12 +16,7 @@ class CompactViewVoteCell: UICollectionViewCell {
     
     public var vote: Vote? {
         didSet {
-            
-            
             let bundle = Bundle(for: self.classForCoder)
-//                return UIImage(named: "YourImageName", in: bundle, compatibleWith: nil)
-
-            
             
             switch vote!.decision {
             case VoteDecision.abstained:
@@ -29,11 +24,11 @@ class CompactViewVoteCell: UICollectionViewCell {
                 voteStatusLabel.text = "You have 1 pending vote."
                 voteStatusLabel.textColor = UIColor.black
             case VoteDecision.inFavor:
-                voteIcon.image = UIImage.init(named: "voted_for", in:bundle, compatibleWith: nil)
+                voteIcon.image = UIImage.init(named: "vote_passed", in:bundle, compatibleWith: nil)
                 voteStatusLabel.text = "You voted for."
                 voteStatusLabel.textColor = UIColor.green
             case VoteDecision.against:
-                voteIcon.image = UIImage.init(named: "voted_against", in:bundle, compatibleWith: nil)
+                voteIcon.image = UIImage.init(named: "vote_failed", in:bundle, compatibleWith: nil)
                 voteStatusLabel.text = "You voted against."
                 voteStatusLabel.textColor = UIColor.red
             default:
@@ -43,7 +38,6 @@ class CompactViewVoteCell: UICollectionViewCell {
             }
             
             meetingGroupName.text = vote?.meetingGroupName
-
         }
     }
     
