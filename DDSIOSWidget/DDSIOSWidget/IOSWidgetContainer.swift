@@ -25,9 +25,10 @@ public class IOSWidgetContainer: BaseWidgetContainer {
     override public func presentModalView(widget: DDSWidget) {
         let iosWidget = widget as! DDSIOSWidget
         
-        let modalVC = iosWidget.currentModalViewController()
-        modalVC.modalPresentationStyle = .formSheet
-        containerViewController?.present(modalVC, animated: true, completion: nil)
+        if let modalVC = iosWidget.currentModalViewController() {
+            modalVC.modalPresentationStyle = .formSheet
+            containerViewController?.present(modalVC, animated: true, completion: nil)
+        }
     }
     
     override public func dismissModalView(widget: DDSWidget) {

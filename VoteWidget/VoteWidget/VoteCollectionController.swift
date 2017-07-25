@@ -134,7 +134,7 @@ extension VoteCollectionController: DDSWidget {
 
 extension VoteCollectionController: DDSIOSWidget {
     
-    public func currentModalViewController() -> UIViewController {
+    public func currentModalViewController() -> UIViewController? {
         
         return editorDialog
     }

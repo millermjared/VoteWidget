@@ -1,11 +1,11 @@
 {
 "metadata": {
-	"title": "Pending Votes"
+	"title": "Pending Vote Widget"
 },
 "widgetData": [
 	{
-        "meetingGroupName": "Sample Meeting Group",
-        "decision": "abstain"
+        "meetingGroupName": "Hi Ben Group",
+        "decision": "for"
     }
 ]
 }
