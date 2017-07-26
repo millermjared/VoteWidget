@@ -57,7 +57,6 @@ public class VoteCollectionController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         collectionViewFlowLayout.scrollDirection = .vertical
-        widgetContainer?.subscribeToEvent(withName: "VOTE_DATA_CHANGED", subscriber: self)
     }
 
     @IBAction func addClicked(_ sender: Any) {
@@ -104,15 +103,16 @@ extension VoteCollectionController: VoteDialogDelegate {
 }
 
 extension VoteCollectionController: DDSWidget {
-    
-    public func setWidgetContainer(_ container: DDSWidgetContainer) {
-        widgetContainer = container
-    }
-
-    public func widgetId() -> String {
+    public func componentId() -> String {
         return "VoteWidget" //make this dynamic for multiple instances...
     }
-    
+
+    public func register(inContainer container: DDSWidgetContainer) {
+        widgetContainer = container
+        container.register(component: self)
+        widgetContainer?.subscribeToEvent(withName: "VOTE_DATA_CHANGED", subscriber: self)        
+    }
+        
     public func widgetTitle() -> String {
         return votingTitle ?? ""
     }
@@ -121,13 +121,13 @@ extension VoteCollectionController: DDSWidget {
         return Int32(voteCount)
     }
     
-    public func layoutContent(forSize size: CGSize) {
-        self.view.frame = CGRect(x:0, y:0, width: size.width, height: size.height)
+    public func layoutContent(width: Float32, height: Float32) {
+        self.view.frame = CGRect(x:0, y:0, width: CGFloat(width), height: CGFloat(height))
         self.view.layoutIfNeeded()
     }
     
     public func currentModalView() -> Any {
-        return currentModalViewController()
+        return currentModalViewController() as Any
     }
     
 }
@@ -143,7 +143,7 @@ extension VoteCollectionController: DDSIOSWidget {
 extension VoteCollectionController: DDSEventSubscriber {
     public func process(name: String, payload: [String : Any]) {
         sourceData = payload
-        collectionView.reloadData()
+        collectionView?.reloadData()
         widgetContainer?.publishEvent(withName: "CHROME_DATA_UPDATED", payload: [String: Any]())
     }
 }

@@ -9,42 +9,32 @@
 import UIKit
 import VoteWidget
 import VoteChartWidget
+import VoteDataProvider
 import DDSWidget
 import DDSIOSWidget
 
 class ViewController: UIViewController {
 
+    var widgets = [String: DDSIOSWidget]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         IOSWidgetContainer.registerWithContainer(self)
         
+        let voteCollectionController = VoteWidgetProvider.createWidget()
+        widgets[voteCollectionController.componentId()] = voteCollectionController
+        
+        let voteChartController = VoteChartWidgetProvider.createWidget()
+        widgets[voteChartController.componentId()] = voteChartController
+        
+        let voteDataProvider = VoteDataProvider()
+        
+        voteDataProvider.register(inContainer: BaseWidgetContainer.sharedInstance())
+        
+        BaseWidgetContainer.sharedInstance().registrationCompleted()
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
-    override func viewDidAppear(_ animated: Bool) {
-        
-        guard let path = Bundle.main.path(forResource: "sample-json", ofType: "txt") else {
-            return
-        }
-        
-        let data: Data = try! NSData(contentsOfFile:path) as Data
-        
-        var payload: [String: Any]?
-        do {
-            payload = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any])
-        } catch {
-            print(error)
-        }
-        
-        BaseWidgetContainer.sharedInstance().publishEvent(withName: "VOTE_DATA_CHANGED", payload: payload!)
-    }
-    
 }
 
 extension ViewController: UICollectionViewDataSource {
@@ -59,7 +49,7 @@ extension ViewController: UICollectionViewDataSource {
         
         if indexPath.item == 0 {
             
-            let voteCollectionController = VoteWidgetProvider.createWidget()
+            let voteCollectionController = widgets["VoteWidget"]!
             voteCollectionController.addWidgetToView(cell.contentArea, inController: self)
             
             cell.widget = voteCollectionController
@@ -67,12 +57,13 @@ extension ViewController: UICollectionViewDataSource {
             cell.widgetTitle.text = voteCollectionController.widgetTitle()
             
         } else {
-            let voteCollectionController = VoteChartWidgetProvider.createWidget()
-            voteCollectionController.addWidgetToView(cell.contentArea, inController: self)
+
+            let voteChartController = widgets["VoteChartWidget"]!
+            voteChartController.addWidgetToView(cell.contentArea, inController: self)
             
-            cell.widget = voteCollectionController
-            cell.barkerCount.text = "\(voteCollectionController.barkerCount())"
-            cell.widgetTitle.text = voteCollectionController.widgetTitle()
+            cell.widget = voteChartController
+            cell.barkerCount.text = "\(voteChartController.barkerCount())"
+            cell.widgetTitle.text = voteChartController.widgetTitle()
         }
         
         return cell

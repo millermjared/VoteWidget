@@ -14,11 +14,8 @@ open class BaseWidgetContainer: NSObject {
         return singleton
     }
     
-    var subscribers: [String: [DDSEventSubscriber]]
-    
-    public override init() {
-        subscribers = [String: [DDSEventSubscriber]]()
-    }
+    var components = [String: DDSComponent]()
+    var subscribers = [String: [DDSEventSubscriber]]()
     
     //dumb swift limitation requires this method not be implemented in an extension
     open func presentModalView(widget: DDSWidget) {
@@ -32,6 +29,18 @@ open class BaseWidgetContainer: NSObject {
 }
 
 extension BaseWidgetContainer: DDSWidgetContainer {
+    public func register(component: DDSComponent) {
+        components[component.componentId()] = component
+    }
+
+    
+    public func registrationCompleted() {
+        for component in components {
+            if let dataProvider = component.value as? DDSDataProvider  {
+                dataProvider.startProducing()
+            }
+        }
+    }
     
     public func subscribeToEvent(withName eventName: String, subscriber: DDSEventSubscriber) {
         var eventSubscribers = subscribers[eventName]

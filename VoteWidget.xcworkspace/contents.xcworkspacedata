@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:VoteDataProvider/VoteDataProvider.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:VoteChartWidget/VoteChartWidget.xcodeproj">
    </FileRef>
    <FileRef

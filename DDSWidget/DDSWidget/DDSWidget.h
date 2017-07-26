@@ -6,7 +6,7 @@
 //  Copyright © 2017 Diligent, Inc. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for DDSWidget.
 FOUNDATION_EXPORT double DDSWidgetVersionNumber;

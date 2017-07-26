@@ -17,5 +17,6 @@ public extension DDSWidget where Self: UIViewController {
 }
 
 public protocol DDSIOSWidget: DDSWidget {
+    func addWidgetToView(_ parentView: UIView, inController controller: UIViewController)
     func currentModalViewController() -> UIViewController?
 }
