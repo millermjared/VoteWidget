@@ -19,8 +19,7 @@ extension VoteWidgetProvider {
         let storyboard = UIStoryboard(name: "VoteWidget", bundle: Bundle(for: self))
         let widget = storyboard.instantiateViewController(withIdentifier: "VoteWidget") as! VoteCollectionController
         
-        widget.setWidgetContainer(BaseWidgetContainer.sharedInstance())
-        
+        widget.register(inContainer: BaseWidgetContainer.sharedInstance())
         
         return widget
     }

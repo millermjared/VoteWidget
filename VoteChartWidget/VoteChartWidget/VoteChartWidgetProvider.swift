@@ -18,7 +18,7 @@ extension VoteChartWidgetProvider {
         let storyboard = UIStoryboard(name: "VoteChart", bundle: Bundle(for: self))
         let widget = storyboard.instantiateViewController(withIdentifier: "VoteChartWidget") as! VoteChartController
         
-        widget.setWidgetContainer(BaseWidgetContainer.sharedInstance())
+        widget.register(inContainer: BaseWidgetContainer.sharedInstance())
         
         
         return widget

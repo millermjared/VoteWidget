@@ -8,21 +8,31 @@
 
 public protocol DDSWidgetContainer: class {
     
+    func register(component: DDSComponent)
+    func registrationCompleted()
+    
     func subscribeToEvent(withName eventName: String, subscriber: DDSEventSubscriber)
     func publishEvent(withName eventName: String, payload: [String: Any])
     func presentModalView(widget: DDSWidget)
     func dismissModalView(widget: DDSWidget)
 }
 
-public protocol DDSWidget {
-    
-    func setWidgetContainer(_ container: DDSWidgetContainer)
-    
-    func widgetId() -> String
+public protocol DDSComponent {
+    func componentId() -> String
+    func register(inContainer container: DDSWidgetContainer)
+}
+
+public protocol DDSWidget: DDSComponent {
     func widgetTitle() -> String
     func barkerCount() -> Int32
-    func layoutContent(forSize size: CGSize)
+    func layoutContent(width: Float32, height: Float32)
     func currentModalView() -> Any
+}
+
+public protocol DDSDataProvider: DDSComponent {
+    func startProducing()
+    func pauseProducing()
+    func stopProducing()
 }
 
 public protocol DDSWidgetProvider {

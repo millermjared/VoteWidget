@@ -29,30 +29,29 @@ public class VoteChartController: UIViewController {
 }
 
 extension VoteChartController: DDSWidget {
-    
-    public func setWidgetContainer(_ container: DDSWidgetContainer) {
+    public func componentId() -> String {
+        return "VoteChartWidget" //make this dynamic for multiple instances...
+    }
+
+    public func register(inContainer container: DDSWidgetContainer) {
         widgetContainer = container
     }
     
-    public func widgetId() -> String {
-        return "Vote Chart Widget" //make this dynamic for multiple instances...
-    }
-    
     public func widgetTitle() -> String {
-        return widgetId()
+        return componentId()
     }
     
     public func barkerCount() -> Int32 {
         return Int32(1)
     }
     
-    public func layoutContent(forSize size: CGSize) {
-        self.view.frame = CGRect(x:0, y:0, width: size.width, height: size.height)
+    public func layoutContent(width: Float32, height: Float32) {
+        self.view.frame = CGRect(x:0, y:0, width: CGFloat(width), height: CGFloat(height))
         self.view.layoutIfNeeded()
     }
     
     public func currentModalView() -> Any {
-        return currentModalViewController()
+        return currentModalViewController() as Any
     }
     
 }
