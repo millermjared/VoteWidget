@@ -13,19 +13,10 @@ import DDSIOSWidget
 public class VoteChartController: UIViewController {
 
     weak var widgetContainer: DDSWidgetContainer?
+    var segments: [Segment]?
     
     @IBOutlet weak var pieChartView: PieChartView!
     
-    
-    //let segments = [Segment(color: UIColor.red, value: 0.24, label: "No"), Segment(color: UIColor.green, value: 0.26, label: "Yes"), Segment(color: UIColor.gray, value: 0.5, label: "Not Voted")]
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        widgetContainer?.subscribeToEvent(withName: "VOTE_DATA_CHANGED", subscriber: self)
-        
-  //      pieChartView.segments = segments
-    }
 }
 
 extension VoteChartController: DDSWidget {
@@ -35,6 +26,7 @@ extension VoteChartController: DDSWidget {
 
     public func register(inContainer container: DDSWidgetContainer) {
         widgetContainer = container
+        widgetContainer?.subscribeToEvent(withName: "VOTE_DATA_CHANGED", subscriber: self)
     }
     
     public func widgetTitle() -> String {
@@ -88,11 +80,13 @@ extension VoteChartController: DDSEventSubscriber {
                 total = total + 1
             }
             
-            let segments = [Segment(color: UIColor.red, value: CGFloat(against)/CGFloat(total), label: "No"), Segment(color: UIColor.green, value: CGFloat(votedFor)/CGFloat(total), label: "Yes"), Segment(color: UIColor.gray, value: CGFloat(notVoted)/CGFloat(total), label: "Not Voted")]
+            segments = [Segment(color: UIColor.red, value: CGFloat(against)/CGFloat(total), label: "No"), Segment(color: UIColor.green, value: CGFloat(votedFor)/CGFloat(total), label: "Yes"), Segment(color: UIColor.gray, value: CGFloat(notVoted)/CGFloat(total), label: "Not Voted")]
             
-            pieChartView.segments = segments
-            
-            pieChartView.setNeedsDisplay()
+            if let pieChart = pieChartView, let chartData = segments {
+                pieChart.segments = chartData
+                
+                pieChart.setNeedsDisplay()
+            }
             
         }
         

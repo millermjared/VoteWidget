@@ -24,9 +24,11 @@ class ViewController: UIViewController {
         
         let voteCollectionController = VoteWidgetProvider.createWidget()
         widgets[voteCollectionController.componentId()] = voteCollectionController
+        voteCollectionController.register(inContainer: BaseWidgetContainer.sharedInstance())
         
         let voteChartController = VoteChartWidgetProvider.createWidget()
         widgets[voteChartController.componentId()] = voteChartController
+        voteChartController.register(inContainer: BaseWidgetContainer.sharedInstance())
         
         let voteDataProvider = VoteDataProvider()
         
