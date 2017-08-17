@@ -16,6 +16,7 @@ class VoteDialogController: UIViewController {
 
     @IBOutlet weak var meetingGroupName: UITextField!
     
+    public var newVote = true
     public var vote: Vote?
     public weak var delegate: VoteDialogDelegate?
     

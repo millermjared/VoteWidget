@@ -36,7 +36,8 @@ public protocol DDSDataProvider: DDSComponent {
 }
 
 public protocol DDSWidgetProvider {
-    static func createWidget() -> DDSWidget
+    associatedtype Widget
+    static func createWidget() -> Widget
 }
 
 public protocol DDSEventSubscriber {

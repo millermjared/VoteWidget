@@ -10,7 +10,11 @@ import DDSWidget
 
 public class VoteDataProvider: NSObject, DDSDataProvider {
     weak var widgetContainer: DDSWidgetContainer?
-    var voteData: [String: Any]?
+    var voteData: [Any]? {
+        didSet {
+            startProducing()
+        }
+    }
     
     func loadStubData() {
         let bundle = Bundle(for: self.classForCoder)
@@ -21,7 +25,9 @@ public class VoteDataProvider: NSObject, DDSDataProvider {
         let data: Data = try! NSData(contentsOfFile:path) as Data
         
         do {
-            voteData = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any])
+            let sourceData = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any])
+            
+            voteData = sourceData?["widgetData"] as? [Any]
         } catch {
             print(error)
         }
@@ -41,7 +47,10 @@ public class VoteDataProvider: NSObject, DDSDataProvider {
     }
     
     public func startProducing() {
-        BaseWidgetContainer.sharedInstance().publishEvent(withName: "VOTE_DATA_CHANGED", payload: voteData!)
+        
+        var payload = [String: Any]()
+        payload["widgetData"] = voteData
+        BaseWidgetContainer.sharedInstance().publishEvent(withName: "VOTE_DATA_CHANGED", payload: payload)
     }
     
     public func pauseProducing() {
@@ -58,6 +67,42 @@ extension VoteDataProvider: DDSEventSubscriber {
     public func process(name: String, payload: [String: Any]) {
         switch name {
         case "ADD_VOTE":
+            if let vote = payload["widgetData"] {
+                voteData?.append(vote)
+            }
+            break;
+        case "REMOVE_VOTE":
+            if let vote = payload["widgetData"] as? [String: Any]{
+                var index = 0
+                for testVote in voteData! {
+                    let jsonVote = testVote as! [String: Any]
+                    if vote == jsonVote {
+                        break
+                    }
+                    index = index + 1
+                }
+                
+                voteData?.remove(at: index)
+            }
+            break;
+        case "UPDATE_VOTE":
+            if let vote = payload["widgetData"] as? [String: Any]{
+                var index = 0
+                for testVote in voteData! {
+                    let jsonVote = testVote as! [String: Any]
+                    
+                    if vote["meetingGroupName"] as? String == jsonVote["meetingGroupName"] as? String {
+                        break
+                    }
+                    index = index + 1
+                }
+                
+                if index < (voteData?.count)! {
+                    voteData?[index] = vote
+                } else {
+                    voteData?.append(vote)
+                }
+            }
             break;
         default:
             break
@@ -65,3 +110,94 @@ extension VoteDataProvider: DDSEventSubscriber {
     }
     
 }
+
+func ==(left: [String: Any], right: [String: Any]) -> Bool {
+    for key in left.keys {
+        if let leftValue = left[key] as? [String: Any] {
+            if let rightValue = right[key] as? [String: Any] {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else if let leftValue = left[key] as? [Any] {
+            if let rightValue = right[key] as? [Any] {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else if let leftValue = left[key] as? NSString {
+            if let rightValue = right[key] as? NSString {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else if let leftValue = left[key] as? NSNumber {
+            if let rightValue = right[key] as? NSNumber {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+func ==(left: [Any], right: [Any]) -> Bool {
+    if left.count != right.count {
+        return false
+    }
+    
+    for (index, element) in left.enumerated() {
+        if let leftValue = element as? [String: Any] {
+            if let rightValue = right[index] as? [String: Any] {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else if let leftValue = element as? NSString {
+            if let rightValue = right[index] as? NSString {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else if let leftValue = element as? NSNumber {
+            if let rightValue = right[index] as? NSNumber {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        } else if let leftValue = element as? [Any] {
+            if let rightValue = right[index] as? [Any] {
+                let comparison = leftValue == rightValue
+                if !comparison {
+                    return false
+                }
+            } else {
+                return false
+            }
+        }
+    }
+    return true
+}
+

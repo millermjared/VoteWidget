@@ -1,0 +1,26 @@
+{
+    "rows": [
+             {
+                 "widgets": [
+                         {
+                         "widgetName": "VoteWidget",
+                         "columnCount": 12
+                         }
+                 ],
+                 "Header": "Voting Widgets"
+             },
+             {
+             "widgets": [
+                         {
+                         "widgetName": "VoteChartWidget",
+                         "columnCount": 6
+                         },
+                         {
+                         "widgetName": "VoteWidget",
+                         "columnCount": 6
+                         }
+                         ],
+             "Header": "Vote Charting"
+             }
+     ]
+}

@@ -9,14 +9,12 @@
 import UIKit
 import DDSWidget
 
-public class VoteChartWidgetProvider: NSObject {
+public class VoteChartWidgetProvider: DDSWidgetProvider {
+    public typealias Widget = VoteChartController
 
-}
-
-extension VoteChartWidgetProvider {
-    public static func createWidget() -> VoteChartController {
+    public static func createWidget() -> Widget {
         let storyboard = UIStoryboard(name: "VoteChart", bundle: Bundle(for: self))
-        let widget = storyboard.instantiateViewController(withIdentifier: "VoteChartWidget") as! VoteChartController
+        let widget = storyboard.instantiateViewController(withIdentifier: "VoteChartWidget") as! Widget
         
         widget.register(inContainer: BaseWidgetContainer.sharedInstance())
         

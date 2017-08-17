@@ -61,20 +61,17 @@ public class VoteCollectionController: UIViewController {
 
     @IBAction func addClicked(_ sender: Any) {
         editorDialog.vote = Vote()
+        editorDialog.newVote = true
         widgetContainer?.presentModalView(widget: self)
     }
     
     @IBAction func removeClicked(_ sender: Any) {
         if var eventPayload = sourceData {
-            var widgetData = eventPayload["widgetData"] as! [[String:Any]]
-            
-            if widgetData.count > 0 {
+            if (votes?.count)! > 0, let voteToRemove = votes?[(votes?.count)! - 1] {                
                 
-                widgetData.remove(at: widgetData.count - 1)
+                eventPayload["widgetData"] = voteToRemove.toJSON()
                 
-                eventPayload["widgetData"] = widgetData
-                
-                widgetContainer?.publishEvent(withName: "VOTE_DATA_CHANGED", payload: eventPayload)
+                widgetContainer?.publishEvent(withName: "REMOVE_VOTE", payload: eventPayload)
             }
         }
     }
@@ -87,15 +84,15 @@ extension VoteCollectionController: VoteDialogDelegate {
         
         if var eventPayload = sourceData {
             
-            var widgetData = eventPayload["widgetData"] as! [[String:Any]]
-            
             if let vote = voteDialog.vote {
                 
-                widgetData.append(vote.toJSON())
+                eventPayload["widgetData"] = vote.toJSON()
                 
-                eventPayload["widgetData"] = widgetData
-                
-                widgetContainer?.publishEvent(withName: "VOTE_DATA_CHANGED", payload: eventPayload)
+                if voteDialog.newVote {
+                    widgetContainer?.publishEvent(withName: "ADD_VOTE", payload: eventPayload)
+                } else {
+                    widgetContainer?.publishEvent(withName: "UPDATE_VOTE", payload: eventPayload)
+                }
             }
         }
         
@@ -152,6 +149,7 @@ extension VoteCollectionController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let vote = votes?[indexPath.item] {
             editorDialog.vote = vote
+            editorDialog.newVote = false
             widgetContainer?.presentModalView(widget: self)
         }
     }
